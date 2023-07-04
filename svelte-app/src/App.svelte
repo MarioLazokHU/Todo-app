@@ -1,11 +1,11 @@
 <script>
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { onMount, createEventDispatcher } from 'svelte';
   
 	let todos = [];
 	let newTodoText = '';
-	
+  
 	const dispatch = createEventDispatcher();
-
+  
 	const addTodo = () => {
 	  const newTodo = {
 		id: Date.now(),
@@ -15,13 +15,12 @@
   
 	  todos = [...todos, newTodo];
 	  newTodoText = '';
-	}
+	};
   
-	const removeTodo = (id) => todos = todos.filter(todo => todo.id !== id);
+	const toggleTodo = (todo) => (todo.completed = !todo.completed, todos = [...todos]);
 
-  
-	const toggleTodo= (todo) => todo.completed = !todo.completed;
-  
+	const removeTodo = (id) => (dispatch('delete', { id }), todos = todos.filter((todo) => todo.id !== id));
+
 	onMount(() => {
 	  todos = [
 		{ id: 1, text: 'Learn Svelte', completed: false },
@@ -50,8 +49,8 @@
 	  {/each}
 	</div>
   </div>
-  
-  <style>
+	
+<style>
 	.con {
 	  width: 250px;
 	  display: flex;
@@ -59,7 +58,7 @@
 	  justify-content: space-around;
 	  align-items: center;
 	}
-  
+	
 	.main-con {
 	  width: 100%;
 	  height: 100vh;
@@ -68,7 +67,7 @@
 	  justify-content: center;
 	  align-items: center;
 	}
-  
+	
 	.todo-item {
 	  width: 100%;
 	  padding: 5px;
@@ -79,31 +78,30 @@
 	  background-color: rgb(82, 82, 82);
 	  border-radius: 5px;
 	}
-  
+	
 	.todo-item > input {
 	  width: 20px;
 	  height: 100%;
 	}
-  
+	
 	.todo-item > span {
 	  width: 150px;
 	  transform: translateY(-15%);
 	}
-  
+	
 	h1 {
 	  margin-bottom: 16px;
 	}
-  
+	
 	input[type="text"] {
 	  margin-right: 8px;
 	}
-  
+	
 	.todo-item {
 	  margin-bottom: 8px;
 	}
-  
+	
 	.completed {
 	  text-decoration: line-through;
 	}
-  </style>
-  
+</style>
