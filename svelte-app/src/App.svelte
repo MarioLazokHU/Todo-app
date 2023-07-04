@@ -1,10 +1,12 @@
 <script>
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
   
 	let todos = [];
 	let newTodoText = '';
-  
-	function addTodo() {
+	
+	const dispatch = createEventDispatcher();
+
+	const addTodo = () => {
 	  const newTodo = {
 		id: Date.now(),
 		text: newTodoText,
@@ -15,13 +17,10 @@
 	  newTodoText = '';
 	}
   
-	function removeTodo(id) {
-	  todos = todos.filter(todo => todo.id !== id);
-	}
+	const removeTodo = (id) => todos = todos.filter(todo => todo.id !== id);
+
   
-	function toggleTodo(todo) {
-	  todo.completed = !todo.completed;
-	}
+	const toggleTodo= (todo) => todo.completed = !todo.completed;
   
 	onMount(() => {
 	  todos = [
